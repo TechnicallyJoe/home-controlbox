@@ -1,0 +1,123 @@
+version: "3.3"
+
+# https://github.com/pi-hole/docker-pi-hole/blob/master/README.md
+
+services:
+  traefik:
+    image: traefik:v2.4
+    container_name: traefik
+    restart: unless-stopped
+    command:
+      # Debug configurations
+      #- "--log.level=DEBUG"
+      # Dashboard configurations
+      - "--api=true"
+      - "--api.insecure=true"
+      - "--api.dashboard=true"
+      # Docker backend configurations
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      # Entrypoint configurations
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.dnsovertls.address=:853"
+      - "--entrypoints.tcpdns.address=:53/tcp"
+      - "--entrypoints.udpdns.address=:53/udp"
+      # LetsEncrypt configurations
+      - "--certificatesresolvers.letsencryptresolver.acme.dnschallenge=true"
+      - "--certificatesresolvers.letsencryptresolver.acme.dnschallenge.provider=cloudflare"
+      - "--certificatesresolvers.letsencryptresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.letsencryptresolver.acme.email=${ACME_EMAIL}"
+      - "--certificatesresolvers.letsencryptresolver.acme.storage=/letsencrypt/acme.json"
+      # Global HTTP -> HTTPS
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+    ports:
+      - 80:80
+      - 443:443
+      - 8080:8080
+    volumes:
+      - "./traefik-certificates:/letsencrypt"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    environment:
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.${BASEURL}`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls.certresolver=letsencryptresolver"
+      - "traefik.http.routers.traefik.service=api@internal"
+
+  whoami:
+    image: traefik/whoami
+    container_name: simple-service
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.${BASEURL}`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls.certresolver=letsencryptresolver"
+
+  portainer:
+    image: portainer/portainer-ce:2.0.1
+    command: -H unix:///var/run/docker.sock
+    restart: unless-stopped
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./portainer_data:/data"
+    labels:
+      # Frontend
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${BASEURL}`)"
+      - "traefik.http.routers.portainer.entrypoints=websecure"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+      - "traefik.http.routers.portainer.service=portainer"
+      - "traefik.http.routers.portainer.tls.certresolver=letsencryptresolver"
+      # Edge - Disabled. Edge service not neceessary. https://github.com/portainer/portainer-compose/tree/master/traefik
+      #- "traefik.http.routers.edge.rule=Host(`edge.${BASEURL}`)"
+      #- "traefik.http.routers.edge.entrypoints=websecure"
+      #- "traefik.http.services.edge.loadbalancer.server.port=8000"
+      #- "traefik.http.routers.edge.service=edge"
+      #- "traefik.http.routers.edge.tls.certresolver=letsencryptresolver"
+
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:v5.5.1
+    restart: unless-stopped
+    environment:
+      TZ: "Europe/Copenhagen"
+      WEBPASSWORD: "${WEBPASSWORD}"
+      PIHOLE_DNS: "1.1.1.1;1.0.0.1"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+    volumes:
+      - "./etc-pihole/:/etc/pihole/"
+      - "./etc-dnsmasq.d/:/etc/dnsmasq.d/"
+      - "./custom.list:/etc/etc-pihole/custom.list"
+    # run `touch ./var-log/pihole.log` first unless you like errors
+    # - './var-log/pihole.log:/var/log/pihole.log'
+    dns:
+      - 127.0.0.1
+    labels:
+      # web interface
+      - "traefik.enable=true"
+      - "traefik.http.routers.pihole.rule=Host(`pihole.${BASEURL}`)"
+      - "traefik.http.routers.pihole.entrypoints=websecure"
+      - "traefik.http.routers.pihole.tls.certresolver=letsencryptresolver"
+      - "traefik.http.services.pihole.loadbalancer.server.port=80"
+      # DNS-over-TLS
+      - "traefik.tcp.routers.dnsovertls.rule=HostSNI(`pihole.${BASEURL}`)"
+      - "traefik.tcp.routers.dnsovertls.entrypoints=dnsovertls"
+      - "traefik.tcp.routers.dnsovertls.tls.certresolver=letsencryptresolver"
+      - "traefik.tcp.routers.dnsovertls.service=pihole"
+      # Normal DNS coming in on 53 TCP, no TLS
+      - "traefik.tcp.routers.dns.rule=HostSNI(`pihole.${BASEURL}`)"
+      - "traefik.tcp.routers.dns.entrypoints=tcpdns"
+      - "traefik.tcp.routers.dns.service=pihole"
+      # recieves traffic from both the TLS and non-TLS traefik routers
+      - "traefik.tcp.services.pihole.loadbalancer.server.port=53"
+      # Normal DNS coming in on 53 UDP
+      - "traefik.udp.routers.udpdns.entrypoints=udpdns"
+      - "traefik.udp.routers.udpdns.service=pihole"
+      - "traefik.udp.services.pihole.loadbalancer.server.port=53"
