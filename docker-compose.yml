@@ -24,9 +24,10 @@ services:
       - "--entrypoints.tcpdns.address=:53/tcp"
       - "--entrypoints.udpdns.address=:53/udp"
       # LetsEncrypt configurations
+      ## Testing caserver. Won't provide valid certificates, but you can test against it during dev phases.
+      #- "--certificatesresolvers.letsencryptresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.letsencryptresolver.acme.dnschallenge=true"
       - "--certificatesresolvers.letsencryptresolver.acme.dnschallenge.provider=cloudflare"
-      - "--certificatesresolvers.letsencryptresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--certificatesresolvers.letsencryptresolver.acme.email=${ACME_EMAIL}"
       - "--certificatesresolvers.letsencryptresolver.acme.storage=/letsencrypt/acme.json"
       # Global HTTP -> HTTPS
