@@ -33,6 +33,8 @@ services:
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
     ports:
+      - "53:53/tcp"
+      - "53:53/udp"
       - 80:80
       - 443:443
       - 8080:8080
@@ -48,23 +50,13 @@ services:
       - "traefik.http.routers.traefik.tls.certresolver=letsencryptresolver"
       - "traefik.http.routers.traefik.service=api@internal"
 
-  whoami:
-    image: traefik/whoami
-    container_name: simple-service
-    restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.${BASEURL}`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"
-      - "traefik.http.routers.whoami.tls.certresolver=letsencryptresolver"
-
   portainer:
     image: portainer/portainer-ce:2.0.1
     command: -H unix:///var/run/docker.sock
     restart: unless-stopped
     volumes:
+      - "./services/portainer/data:/data"
       - "/var/run/docker.sock:/var/run/docker.sock"
-      - "./portainer_data:/data"
     labels:
       # Frontend
       - "traefik.enable=true"
@@ -82,19 +74,15 @@ services:
 
   pihole:
     container_name: pihole
-    image: pihole/pihole:v5.5.1
+    image: pihole/pihole:v5.6
     restart: unless-stopped
     environment:
       TZ: "Europe/Copenhagen"
-      WEBPASSWORD: "${WEBPASSWORD}"
+      WEBPASSWORD: "${PIHOLE_PASSWORD}"
       PIHOLE_DNS: "1.1.1.1;1.0.0.1"
-    ports:
-      - "53:53/tcp"
-      - "53:53/udp"
     volumes:
-      - "./etc-pihole/:/etc/pihole/"
-      - "./etc-dnsmasq.d/:/etc/dnsmasq.d/"
-      - "./custom.list:/etc/etc-pihole/custom.list"
+      - "./services/pihole/etc-pihole/:/etc/pihole/"
+      - "./services/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/"
     # run `touch ./var-log/pihole.log` first unless you like errors
     # - './var-log/pihole.log:/var/log/pihole.log'
     dns:
