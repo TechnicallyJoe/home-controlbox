@@ -6,5 +6,6 @@ This project holds the docker-compose template for one of my raspberry pis. Spec
 
 ACME_EMAIL=
 CF_DNS_API_TOKEN=
-BASEURL=
+DOMAIN=
+DEVICE=
 PIHOLE_PASSWORD=
