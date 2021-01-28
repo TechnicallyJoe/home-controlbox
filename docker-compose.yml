@@ -34,10 +34,11 @@ services:
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
     ports:
-      - "53:53/tcp"
-      - "53:53/udp"
+      - 53:53/tcp
+      - 53:53/udp
       - 80:80
       - 443:443
+      - 853:853
       - 8080:8080
     volumes:
       - "./services/traefik/letsencrypt:/letsencrypt"
