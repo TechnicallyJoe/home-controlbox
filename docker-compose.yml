@@ -40,7 +40,7 @@ services:
       - 443:443
       - 8080:8080
     volumes:
-      - "./traefik-certificates:/letsencrypt"
+      - "./services/traefik/letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
     environment:
       - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
