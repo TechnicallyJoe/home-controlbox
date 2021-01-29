@@ -85,8 +85,7 @@ services:
     volumes:
       - "./services/pihole/etc-pihole/:/etc/pihole/"
       - "./services/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/"
-      - "./data/pihole/custom.list:/etc/pihole/custom.list"
-      #- "./data/pihole/03-custom-hosts.conf:/etc/dnsmasq.d/03-custom-hosts.conf"
+      - "./data/pihole/03-custom-hosts.conf:/etc/dnsmasq.d/03-custom-hosts.conf"
     # run `touch ./var-log/pihole.log` first unless you like errors
     # - './var-log/pihole.log:/var/log/pihole.log'
     dns:
