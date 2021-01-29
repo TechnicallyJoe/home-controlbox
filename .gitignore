@@ -4,6 +4,3 @@
 
 # docker-compose volumes
 /services/*
-
-# Explicitly adding homer config to repository
-!/services/homer/
