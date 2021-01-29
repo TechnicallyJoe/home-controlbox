@@ -111,3 +111,16 @@ services:
       - "traefik.udp.routers.udpdns.entrypoints=udpdns"
       - "traefik.udp.routers.udpdns.service=pihole"
       - "traefik.udp.services.pihole.loadbalancer.server.port=53"
+
+  homer:
+    image: b4bz/homer:latest
+    container_name: homer
+    volumes:
+      - "./services/homer/:/www/assets"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homer.rule=Host(`dashboard.${DOMAIN}`)"
+      - "traefik.http.routers.homer.entrypoints=websecure"
+      - "traefik.http.services.homer.loadbalancer.server.port=8080"
+      - "traefik.http.routers.homer.service=homer"
+      - "traefik.http.routers.homer.tls.certresolver=letsencryptresolver"
