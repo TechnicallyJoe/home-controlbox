@@ -2,13 +2,13 @@
 # Homepage configuration
 # See https://fontawesome.com/icons for icons options
 
-title: "Demo dashboard"
-subtitle: "Homer"
-logo: "logo.png"
-# icon: "fas fa-skull-crossbones" # Optional icon
+title: Homer
+subtitle: Technicallyjoe
+#logo: logo.png
+# icon: fas fa-skull-crossbones # Optional icon
 
-header: true
-footer: '<p>Created with <span class="has-text-danger">❤️</span> with <a href="https://bulma.io/">bulma</a>, <a href="https://vuejs.org/">vuejs</a> & <a href="https://fontawesome.com/">font awesome</a> // Fork me on <a href="https://github.com/bastienwirtz/homer"><i class="fab fa-github-alt"></i></a></p>' # set false if you want to hide it.
+header: false
+footer: "This page is created using <a href=https://github.com/bastienwirtz/homer/>Homer</a>. Service is provided by Technicallyjoe."
 
 # Optional theme customization
 theme: default
@@ -41,37 +41,67 @@ colors:
 # Optional message
 message:
   #url: https://b4bz.io
-  style: "is-dark" # See https://bulma.io/documentation/components/message/#colors for styling options.
-  title: "Demo !"
-  icon: "fa fa-grin"
-  content: "This is a dummy homepage demo. <br /> Find more information on <a href='https://github.com/bastienwirtz/homer'>github.com/bastienwirtz/homer</a>"
+  style: is-dark # See https://bulma.io/documentation/components/message/#colors for styling options.
+  title: Home Network Overview Page
+  icon: fa fa-grin
+  content: This page is intended to give a quick overview over the different services provided on the home network.
+  #content: This is a dummy homepage demo. <br /> Find more information on <a href='https://github.com/bastienwirtz/homer'>github.com/bastienwirtz/homer</a>
 
 # Optional navbar
 # links: [] # Allows for navbar (dark mode, layout, and search) without any links
 links:
-  - name: "Contribute"
-    icon: "fab fa-github"
-    url: "https://github.com/bastienwirtz/homer"
-    target: "_blank" # optional html a tag target attribute
-  - name: "Wiki"
-    icon: "fas fa-book"
-    url: "https://www.wikipedia.org/"
+  - name: Home Assistant
+    icon: fab fa-home
+    url: https://dashboard.technicallyjoe.net
 
 # Services
 # First level array represent a group.
-# Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
+# Leave only a items key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
 services:
-  - name: "Applications"
-    icon: "fas fa-cloud"
+  - name: Applications
+    icon: fas fa-home
     items:
-      - name: "Awesome app"
-        logo: "assets/tools/sample.png"
-        subtitle: "Bookmark example"
-        tag: "app"
-        url: "https://www.reddit.com/r/selfhosted/"
-        target: "_blank" # optional html a tag target attribute
-      - name: "Another one"
-        logo: "assets/tools/sample2.png"
-        subtitle: "Another application"
-        tag: "app"
-        url: "#"
+      - name: Home Assistant
+        subtitle: NOT IMPLEMENTED YET
+        tag: rp2
+        url: https://dashboard.technicallyjoe.net
+        tagstyle: "is-success"
+
+      - name: Homer
+        subtitle: Homer is the best place to get an overview of all active and inactive services
+        tag: rp1
+        url: https://homer.technicallyjoe.net
+
+  - name: System
+    icon: fas fa-cog
+    items:
+      - name: Pi-hole
+        subtitle: A DNS proxy that acts as a blackhole for advertisements.
+        tag: rp1
+        url: https://pihole.technicallyjoe.net/admin
+
+  - name: Musicbox
+    icon: fas fa-server
+    items:
+      - name: Portainer
+        subtitle: Portainer is a container management tool.
+        tag: rp1
+        url: https://portainer.musicbox.technicallyjoe.net
+
+      - name: Traefik
+        subtitle: Traefik is a proxy used to provide ssl termination.
+        tag: rp1
+        url: https://traefik.musicbox.technicallyjoe
+
+  - name: Smarthome
+    icon: fas fa-server
+    items:
+      - name: Portainer
+        subtitle: Portainer is a container management tool.
+        tag: rp2
+        url: https://portainer.smarthome.technicallyjoe.net
+
+      - name: Traefik
+        subtitle: Traefik is a proxy used to provide ssl termination.
+        tag: rp2
+        url: https://traefik.smarthome.technicallyjoe
