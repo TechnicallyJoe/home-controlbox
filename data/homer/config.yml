@@ -61,7 +61,7 @@ services:
     icon: fas fa-home
     items:
       - name: Home Assistant
-        subtitle: NOT IMPLEMENTED YET
+        subtitle: Open source smart home gateway software.
         tag: rp2
         url: https://dashboard.technicallyjoe.net
         tagstyle: "is-success"
