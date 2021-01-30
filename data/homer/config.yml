@@ -103,4 +103,4 @@ services:
       - name: Traefik
         subtitle: Traefik is a proxy used to provide ssl termination.
         tag: rp2
-        url: https://traefik.smarthome.technicallyjoe
+        url: https://traefik.smarthome.technicallyjoe.net
