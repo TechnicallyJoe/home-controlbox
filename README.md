@@ -9,3 +9,4 @@ CF_DNS_API_TOKEN=
 DOMAIN=
 DEVICE=
 PIHOLE_PASSWORD=
+LE_CASERVER=https://acme-v02.api.letsencrypt.org/directory
