@@ -119,7 +119,7 @@ services:
       - "./data/homer/:/www/assets"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.homer.rule=Host(`dashboard.${DOMAIN}`)"
+      - "traefik.http.routers.homer.rule=Host(`homer.${DOMAIN}`)"
       - "traefik.http.routers.homer.entrypoints=websecure"
       - "traefik.http.services.homer.loadbalancer.server.port=8080"
       - "traefik.http.routers.homer.service=homer"
