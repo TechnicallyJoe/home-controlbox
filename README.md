@@ -2,6 +2,9 @@
 
 This project holds the docker-compose template for one of my raspberry pis. Specifically the one i've dubbed 'musicbox'
 
+## Commands
+docker exec -it pihole bash pihole restartdns
+
 ## .env file:
 
 ACME_EMAIL=
