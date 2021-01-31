@@ -2,6 +2,6 @@
 192.168.1.10    homer.technicallyjoe.net                homer
 192.168.1.10    pihole.technicallyjoe.net               pihole
 192.168.1.10    portainer.technicallyjoe.net            portainer
-192.168.1.10    traefik.musicbox.technicallyjoe.net     traefik
+192.168.1.10    traefik.controlbox.technicallyjoe.net   traefik
 192.168.1.11    ha.technicallyjoe.net                   ha
-192.168.1.11    traefik.smarthome.technicallyjoe.net    traefik
+192.168.1.11    traefik.smarthub.technicallyjoe.net     traefik

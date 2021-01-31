@@ -1,15 +1,12 @@
-# rp-musicbox
+# home-controlbox
 
-This project holds the docker-compose template for one of my raspberry pis. Specifically the one i've dubbed 'musicbox'
+This project holds the docker-compose template for one of my raspberry pis.
 
 ## Commands
-docker exec -it pihole bash pihole restartdns
 
-## .env file:
+### Restart Pihole DNS
+```docker exec -it pihole bash pihole restartdns```
 
-ACME_EMAIL=
-CF_DNS_API_TOKEN=
-DOMAIN=
-DEVICE=
-PIHOLE_PASSWORD=
-LE_CASERVER=https://acme-v02.api.letsencrypt.org/directory
+## dotenv
+
+See the .env.dev for examples.
