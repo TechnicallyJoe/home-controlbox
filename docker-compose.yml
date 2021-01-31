@@ -113,6 +113,7 @@ services:
   homer:
     image: b4bz/homer:latest
     container_name: homer
+    restart: unless-stopped
     volumes:
       - "./data/homer/:/www/assets"
     labels:
