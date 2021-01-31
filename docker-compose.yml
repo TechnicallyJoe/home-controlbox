@@ -62,17 +62,11 @@ services:
     labels:
       # Frontend
       - "traefik.enable=true"
-      - "traefik.http.routers.portainer.rule=Host(`portainer.${DEVICE}.${DOMAIN}`)"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.${DOMAIN}`)"
       - "traefik.http.routers.portainer.entrypoints=websecure"
       - "traefik.http.services.portainer.loadbalancer.server.port=9000"
       - "traefik.http.routers.portainer.service=portainer"
       - "traefik.http.routers.portainer.tls.certresolver=letsencryptresolver"
-      # Edge - Disabled. Edge service not neceessary. https://github.com/portainer/portainer-compose/tree/master/traefik
-      #- "traefik.http.routers.edge.rule=Host(`edge.${DOMAIN}`)"
-      #- "traefik.http.routers.edge.entrypoints=websecure"
-      #- "traefik.http.services.edge.loadbalancer.server.port=8000"
-      #- "traefik.http.routers.edge.service=edge"
-      #- "traefik.http.routers.edge.tls.certresolver=letsencryptresolver"
 
   pihole:
     container_name: pihole
