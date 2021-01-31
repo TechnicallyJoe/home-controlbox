@@ -79,14 +79,14 @@ services:
         tag: rp1
         url: https://pihole.technicallyjoe.net/admin
 
-  - name: Musicbox
-    icon: fas fa-server
-    items:
       - name: Portainer
         subtitle: Portainer is a container management tool.
         tag: rp1
-        url: https://portainer.musicbox.technicallyjoe.net
+        url: https://portainer.technicallyjoe.net
 
+  - name: Musicbox
+    icon: fas fa-server
+    items:
       - name: Traefik
         subtitle: Traefik is a proxy used to provide ssl termination.
         tag: rp1
@@ -95,11 +95,6 @@ services:
   - name: Smarthome
     icon: fas fa-server
     items:
-      - name: Portainer
-        subtitle: Portainer is a container management tool.
-        tag: rp2
-        url: https://portainer.smarthome.technicallyjoe.net
-
       - name: Traefik
         subtitle: Traefik is a proxy used to provide ssl termination.
         tag: rp2
