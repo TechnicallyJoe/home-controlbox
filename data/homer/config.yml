@@ -63,7 +63,7 @@ services:
       - name: Home Assistant
         subtitle: Open source smart home gateway software.
         tag: rp2
-        url: https://dashboard.technicallyjoe.net
+        url: https://ha.technicallyjoe.net
         tagstyle: "is-success"
 
       - name: Homer
@@ -76,7 +76,7 @@ services:
     items:
       - name: Pi-hole
         subtitle: A DNS proxy that acts as a blackhole for advertisements.
-        tag: rp1
+        tag: NOTIMPLEMENTEDYET
         url: https://pihole.technicallyjoe.net/admin
 
       - name: Portainer
@@ -84,18 +84,18 @@ services:
         tag: rp1
         url: https://portainer.technicallyjoe.net
 
-  - name: Musicbox
+  - name: rp1
     icon: fas fa-server
     items:
       - name: Traefik
         subtitle: Traefik is a proxy used to provide ssl termination.
         tag: rp1
-        url: https://traefik.musicbox.technicallyjoe.net
+        url: https://traefik.rp1.technicallyjoe.net
 
-  - name: Smarthome
+  - name: rp2
     icon: fas fa-server
     items:
       - name: Traefik
         subtitle: Traefik is a proxy used to provide ssl termination.
         tag: rp2
-        url: https://traefik.smarthome.technicallyjoe.net
+        url: https://traefik.rp2.technicallyjoe.net
