@@ -68,49 +68,49 @@ services:
       - "traefik.http.routers.portainer.service=portainer"
       - "traefik.http.routers.portainer.tls.certresolver=letsencryptresolver"
 
-  pihole:
-    container_name: pihole
-    image: pihole/pihole:v5.5.1
-    restart: unless-stopped
-    environment:
-      TZ: "Europe/Copenhagen"
-      WEBPASSWORD: "${PIHOLE_PASSWORD}"
-      PIHOLE_DNS: "1.1.1.1;1.0.0.1"
-    volumes:
-      - "./services/pihole/etc-pihole/:/etc/pihole/"
-      - "./services/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/"
-      - "./data/pihole/hosts:/etc/pihole/hosts"
-      - "./data/pihole/05-custom.conf:/etc/dnsmasq.d/05-custom.conf"
-      #- "./data/pihole/03-custom-hosts.conf:/etc/dnsmasq.d/03-custom-hosts.conf"
-    # run `touch ./var-log/pihole.log` first unless you like errors
-    # - './var-log/pihole.log:/var/log/pihole.log'
-    ports:
-      - 53:53/tcp
-      - 53:53/udp
-    dns:
-      - 127.0.0.1
-    labels:
-      # web interface
-      - "traefik.enable=true"
-      - "traefik.http.routers.pihole.rule=Host(`pihole.${DOMAIN}`)"
-      - "traefik.http.routers.pihole.entrypoints=websecure"
-      - "traefik.http.routers.pihole.tls.certresolver=letsencryptresolver"
-      - "traefik.http.services.pihole.loadbalancer.server.port=80"
-      ## DNS-over-TLS
-      #- "traefik.tcp.routers.dnsovertls.rule=HostSNI(`pihole.${DOMAIN}`)"
-      #- "traefik.tcp.routers.dnsovertls.entrypoints=dnsovertls"
-      #- "traefik.tcp.routers.dnsovertls.tls.certresolver=letsencryptresolver"
-      #- "traefik.tcp.routers.dnsovertls.service=pihole"
-      ## Normal DNS coming in on 53 TCP, no TLS
-      #- "traefik.tcp.routers.dns.rule=HostSNI(`pihole.${DOMAIN}`)"
-      #- "traefik.tcp.routers.dns.entrypoints=tcpdns"
-      #- "traefik.tcp.routers.dns.service=pihole"
-      ## recieves traffic from both the TLS and non-TLS traefik routers
-      #- "traefik.tcp.services.pihole.loadbalancer.server.port=53"
-      ## Normal DNS coming in on 53 UDP
-      #- "traefik.udp.routers.udpdns.entrypoints=udpdns"
-      #- "traefik.udp.routers.udpdns.service=pihole"
-      #- "traefik.udp.services.pihole.loadbalancer.server.port=53"
+  #pihole:
+  #  container_name: pihole
+  #  image: pihole/pihole:v5.5.1
+  #  restart: unless-stopped
+  #  environment:
+  #    TZ: "Europe/Copenhagen"
+  #    WEBPASSWORD: "${PIHOLE_PASSWORD}"
+  #    PIHOLE_DNS: "1.1.1.1;1.0.0.1"
+  #  volumes:
+  #    - "./services/pihole/etc-pihole/:/etc/pihole/"
+  #    - "./services/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/"
+  #    - "./data/pihole/hosts:/etc/pihole/hosts"
+  #    - "./data/pihole/05-custom.conf:/etc/dnsmasq.d/05-custom.conf"
+  #    #- "./data/pihole/03-custom-hosts.conf:/etc/dnsmasq.d/03-custom-hosts.conf"
+  #  # run `touch ./var-log/pihole.log` first unless you like errors
+  #  # - './var-log/pihole.log:/var/log/pihole.log'
+  #  ports:
+  #    - 53:53/tcp
+  #    - 53:53/udp
+  #  dns:
+  #    - 127.0.0.1
+  #  labels:
+  #    # web interface
+  #    - "traefik.enable=true"
+  #    - "traefik.http.routers.pihole.rule=Host(`pihole.${DOMAIN}`)"
+  #    - "traefik.http.routers.pihole.entrypoints=websecure"
+  #    - "traefik.http.routers.pihole.tls.certresolver=letsencryptresolver"
+  #    - "traefik.http.services.pihole.loadbalancer.server.port=80"
+  #    ## DNS-over-TLS
+  #    #- "traefik.tcp.routers.dnsovertls.rule=HostSNI(`pihole.${DOMAIN}`)"
+  #    #- "traefik.tcp.routers.dnsovertls.entrypoints=dnsovertls"
+  #    #- "traefik.tcp.routers.dnsovertls.tls.certresolver=letsencryptresolver"
+  #    #- "traefik.tcp.routers.dnsovertls.service=pihole"
+  #    ## Normal DNS coming in on 53 TCP, no TLS
+  #    #- "traefik.tcp.routers.dns.rule=HostSNI(`pihole.${DOMAIN}`)"
+  #    #- "traefik.tcp.routers.dns.entrypoints=tcpdns"
+  #    #- "traefik.tcp.routers.dns.service=pihole"
+  #    ## recieves traffic from both the TLS and non-TLS traefik routers
+  #    #- "traefik.tcp.services.pihole.loadbalancer.server.port=53"
+  #    ## Normal DNS coming in on 53 UDP
+  #    #- "traefik.udp.routers.udpdns.entrypoints=udpdns"
+  #    #- "traefik.udp.routers.udpdns.service=pihole"
+  #    #- "traefik.udp.services.pihole.loadbalancer.server.port=53"
 
   homer:
     image: b4bz/homer:latest
